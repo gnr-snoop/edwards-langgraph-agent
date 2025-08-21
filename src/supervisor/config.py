@@ -3,10 +3,27 @@
 import os
 from dataclasses import dataclass, fields
 from typing import Any, Optional
+from langgraph.store.base import Item
 
 from langgraph.config import get_config
 
+def format_memories(memories: Optional[list[Item]]) -> str:
+    """Format the user's memories."""
+    if not memories:
+        return ""
+    # Note Bene: You can format better than this....
+    formatted_memories = "\n".join(
+        f"{str(m.value)}\tLast updated: {m.updated_at}" for m in memories
+    )
+    return f"""
 
+## Memories
+
+You have noted the following memorable events from previous interactions with the user.
+<memories>
+{formatted_memories}
+</memories>
+"""
 
 @dataclass(kw_only=True)
 class ChatConfigurable:

@@ -26,6 +26,13 @@ This system is designed to assist with internal company processes, specifically 
 ### EXAMPLES OF EXPECTED BEHAVIOR:  
 
 {howto}
+
+
+
+
+### User memories:
+{user_memories}\n\nSystem Time: {time}"
+
 """
 
 

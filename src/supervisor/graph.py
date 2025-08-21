@@ -1,7 +1,10 @@
 import json
+import datetime
 from typing import Literal, TypedDict
 
 from langgraph_sdk import get_client
+from langgraph.config import get_store
+
 from langchain_core.runnables import RunnableConfig
 
 from langgraph.constants import START, END
@@ -22,8 +25,7 @@ from rag_agent.graph import graph as rag_agent
 from sql_agent.bigquery_graph import graph as sql_agent
 from transaction_agent.graph import make_graph as create_transaction_agent_graph
 
-from supervisor.config import ChatConfigurable
-
+from supervisor.config import ChatConfigurable, format_memories
 
 
 
@@ -206,10 +208,21 @@ async def help_node(state: State) -> State:
             for use_case in data[i]['how-to-use']:
                 how_to += f"**User:** {use_case['query']}\n**Help Node: ** *{use_case['answer']}*\n\n"
 
+    configurable = ChatConfigurable.from_context()
+    namespace = ("memories",configurable.user_id,)
+    store = get_store()
+    # This lists ALL user memories in the provided namespace (up to the `limit`)
+    # you can also filter by content.
+    query = "\n".join(str(message.content) for message in state["messages"])
+    items = await store.asearch(namespace, query=query, limit=10)
+
     system_message = help_prompt.format(
         capabilities=capabilities,
-        howto=how_to
+        howto=how_to,
+        user_memories=format_memories(items),
+        time=datetime.datetime.now(datetime.UTC).strftime("%Y-%m-%d %H:%M:%S"),
     )
+
     conversation_messages = [
         message
         for message in state["messages"]
