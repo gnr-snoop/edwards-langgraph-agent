@@ -1,0 +1,24 @@
+# Ignore virtual environment
+venv/
+env/
+.venv/
+.langgraph_api/
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.log
+*.mp3
+*.png
+# Distribution / packaging
+.env
+dist/
+build/
+*.egg-info/
+
+# IDE files
+.idea/
+*.iml
+
+bigquery_credentials.json
+gcp_credentials.json

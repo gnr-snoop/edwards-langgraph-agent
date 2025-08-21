@@ -1,0 +1,60 @@
+quién tiene mas hallazgos cargados?,"La persona con más hallazgos cargados es Yolanda Valentina Gonzalez Dominguez, con untotal de 35 hallazgos. \n\nConsulta SQL utilizada:\n\nSELECT u.first_name, u.last_name, COUNT(t.id) AS hallazgos_cargados \nFROM users u \nJOIN reported_by r ON u.id= r.user_id \nJOIN tasks t ON r.task_id = t.id \nGROUP BY u.id, u.first_name, u.last_name \nORDER BY hallazgos_cargados DESC \nLIMIT 1;"
+
+decime los hallazgos cargados en los ultimos 4 meses,"Los hallazgos cargados en los últimos 4 meses son:  1. **ID:** 86b2pjg54      **Nombre:** Falta de Sñority en el equipo para encarar desarrollos grandes      **Tipo de Hallazgo:** No Conformidad      **Descripción:**      **Fecha de Alta:** 2024-10-23    2. **ID:** 86b2pjb5u      **Nombre:** Se encontraron algunas informaciones desactualizadas en la pagina de clientes      **Tipo de Hallazgo:** No Conformidad      **Descripción:** EO. Se visualiza la categorias como 4-play donde esta Federico AON      **Fecha de Alta:** 2024-10-23    Consulta SQL utilizada: sql SELECT id, name, tipo_hallazgo, description, fecha_alta  FROM tasks  WHERE fecha_alta >= DATE_SUB(CURRENT_DATE(), INTERVAL 4 MONTH)  ORDER BY fecha_alta DESC"
+
+cuantos hubo?,"Hubo un total de 2 hallazgos cargados en los últimos 4 meses.   Consulta SQL utilizada:  SELECT COUNT(*) FROM tasks WHERE fecha_alta >= DATE_SUB(CURRENT_DATE(), INTERVAL 4 MONTH)"
+
+y cerradas?,"Hubo un total de 0 hallazgos cerrados en los últimos 4 meses.  Consulta SQL utilizada: sql SELECT COUNT(*) FROM tasks WHERE status = 'cerrado' AND fecha_alta >= DATE_SUB(CURRENT_DATE(), INTERVAL 4 MONTH)"
+
+cuántas oportunidades de mejora fueron asignadas a Valentina Gonzalez?,"La cantidad de oportunidades de mejora asignadas a Valentina Gonzalez es 0. 
+Consulta SQL utilizada:
+SELECT COUNT(*) FROM assigned_to JOIN users ON users.id = assigned_to.user_id JOIN tasks ON tasks.id = assigned_to.task_id WHERE users.first_name = 'Yolanda' AND users.last_name = 'Valentina Gonzalez Dominguez'"
+cantidad de tareas cerradas de QMO,"La cantidad de tareas cerradas de QMO es 100.   SQL Query: SELECT COUNT(*) FROM tasks WHERE status = 'cerrado' AND areas = 'QMO'"
+mostrar el usuario con mas tareas cerradas del area sistemas internos,"El usuario con más tareas cerradas del área Sistemas Internos es Matias Nicolas Albacetti Mandrillo, con un total de 18 tareas cerradas.  Consulta SQL utilizada: 
+SELECT users.id, users.first_name, users.last_name, COUNT(tasks.id) AS closed_tasks  FROM users  JOIN assigned_to ONusers.id= assigned_to.user_id  JOIN tasks ON assigned_to.task_id =tasks.idWHERE tasks.status = 'cerrado' AND tasks.areas = 'Sistemas Internos'GROUP BY users.id, users.first_name, users.last_name ORDER BY closed_tasks DESC  LIMIT 1;"
+
+mostrar usuarios que tengan mas tareas asignadas que reportadas,"BigQuery_Query_Agent:Los usuarios que tienen más tareas asignadas que reportadas son: 
+Thiago Sosa Argañaraz
+Nicolas Ezequiel Giannici
+David Alejandro Marmol
+Consulta SQL utilizada: SELECT users.first_name, users.last_name  FROM users  JOIN assigned_to ONusers.id= assigned_to.user_id  LEFT JOIN reported_by ONusers.id= reported_by.user_id  GROUP BY users.id, users.first_name, users.last_name HAVING COUNT(assigned_to.task_id) > COUNT(reported_by.task_id)  ORDER BY COUNT(assigned_to.task_id) DESC; "
+
+mostrar la cantidad de tareas reportadas por el segundo usuario antes mencionado,"BigQuery_Query_Agent:El usuario Nicolas Ezequiel Giannici no ha reportado ninguna tarea.   Consulta SQL utilizada:
+SELECT COUNT(reported_by.task_id) AS reported_tasks_count 
+FROM reported_by 
+JOIN users ON reported_by.user_id = users.id 
+WHERE users.first_name = 'Nicolas' AND users.last_name = 'Ezequiel Giannici';"
+
+"Quiero cargar un hallazgo.","ClickUp_Tasks_Loader:Claro, puedo ayudarte a cargar un hallazgo. Para ello, necesitaré algunos detalles:
+
+Nombre del hallazgo: ¿Cuál es el nombre que deseas darle?
+Descripción: ¿Puedes proporcionar una breve descripción del hallazgo?
+Tipo: ¿Es un riesgo, una oportunidad de mejora o una no conformidad?
+Asignado a: ¿A quién se le asignará este hallazgo? (Puedes proporcionar uno o varios nombres).
+
+Por favor, proporciona esta información y procederé a cargar el hallazgo."
+
+"Proceso de cierre, es porque el proceso de cierre de un proyecto es muy largo y faltan pasos intermedios, asignaselo a Guille","ClickUp_Tasks_Loader:Necesito un poco más de información para completar el hallazgo:
+
+Tipo: ¿Este hallazgo se clasifica como un riesgo, una oportunidad de mejora o una no conformidad?
+Descripción: ¿Puedes proporcionar una descripción más detallada del hallazgo?
+
+Con estos detalles, podré proceder a cargar el hallazgo."
+
+"oportunidad de mejora, la descripcion completala vos","ClickUp_Tasks_Loader:Por favor, comfirma que los siguientes datos sean correctos: 
+ 
+        Nombre: Proceso de cierre
+        Descripción: El proceso de cierre de un proyecto es muy largo y faltan pasos intermedios, lo que puede generar confusiones y retrasos en la finalización del proyecto. Se sugiere revisar y optimizar el proceso para hacerlo más eficiente.
+        Tipo: Oportunidad de mejora
+        Asignada a: ['guillermo.burriel@snoop.com.ar']"
+
+correcto,"ClickUp_Tasks_Loader:¡La tarea se ha creado con éxito!
+
+Información de la tarea:
+
+Nombre: Proceso de cierre
+Descripción: El proceso de cierre de un proyecto es muy largo y faltan pasos intermedios, lo que puede generar confusiones y retrasos en la finalización del proyecto. Se sugiere revisar y optimizar el proceso para hacerlo más eficiente.
+Tipo: Oportunidad de mejora
+Asignada a: ['guillermo.burriel@snoop.com.ar']
+
+Puedes encontrar la tarea en el siguiente enlace: [https://app.clickup.com/t/86b3zzr6x](https://app.clickup.com/t/86b3zzr6x)." 

@@ -1,0 +1,32 @@
+[
+    {
+        "name": "bigquery-agent",
+        "description": "**TASK STATUS & HISTORY**\n  - Retrieve details about previously created tasks.\n  - Example:\n    - **'¿Cuál es el estado del hallazgo HZ-5678?'**\n    - **'Muéstrame los hallazgos abiertos relacionados con auditoría.'**",
+        "how-to-use": [
+            {
+                "query": "¿Cómo puedo saber cuántos hallazgos tengo asignados y se encuentrán aún sin cerrar?",
+                "answer": "Puedes preguntar: '¿Cuántos hallazgos tengo asignados con el estado **cerrado**?'"
+            }
+        ]
+    },
+    {
+        "name": "rag-agent",
+        "description": "**Process Guidance**\n  - Retrieve and summarize relevant information from company documentation.\n  - Example:\n    - **'¿Cuáles son los procedimientos de auditoría interna?'**\n    - **'Que es un hallazgo?'**\n    - **'Explícame los criterios de calidad aplicables a auditoría.'**",
+        "how-to-use": [
+            {
+                "query": "¿Puedo buscar información en Freshworks?",
+                "answer": "Si claro, puedo ayudarte con eso. Por ejemplo: 'Busca información sobre [tema]'."
+            }
+        ]
+    },
+    {
+        "name": "clickup-agent",
+        "description": "**TASK CREATION & MANAGEMENT**\n  - Create 'hallazgos' in ClickUp.\n  - Example:\n    - **'Crea un hallazgo sobre documentación faltante en auditoría.'**",
+        "how-to-use": [
+            {
+                "query": "¿Cómo puedo registrar un hallazgo?",
+                "answer": "Para registrar un hallazgo, puedes decir: 'Crea un hallazgo sobre [descripción]'."
+            }
+        ]
+    }
+]

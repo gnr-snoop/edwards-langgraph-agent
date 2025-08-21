@@ -1,0 +1,3 @@
+DECIDE_TO_GENERATE_ERROR = "No se encontraron documentos relevantes" # no encontró documentos que coincidan semanticamente
+NO_DOCUMENTS_FOR_QUESTION_ERROR = "No hay información relevante acerca de la consulta" # encontró documentos pero no responden a la pregunta
+HALLUCINATION_ERROR = "No hay información relevante acerca de la consulta" # se podría cambiar, es especifico para cuando el modelo alucina N veces
