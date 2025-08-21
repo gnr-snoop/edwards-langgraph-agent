@@ -12,9 +12,19 @@ _postgres_engine = None
 def get_bigquery_engine():
     global _bigquery_engine
     if _bigquery_engine is None:
-        service_account_file_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
-        service_account_file_path = os.path.abspath(service_account_file_path)
-        
+        credentials_info = {
+            "type": "service_account",
+            "project_id": os.environ.get('GCP_PROJECT_ID'),
+            "private_key_id": os.environ.get('GCP_PRIVATE_KEY_ID'),
+            "private_key": os.environ.get('GCP_PRIVATE_KEY').replace('\\n', '\n'),
+            "client_email": os.environ.get('GCP_CLIENT_EMAIL'),
+            "client_id": os.environ.get('GCP_CLIENT_ID'),
+            "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+            "token_uri": "https://oauth2.googleapis.com/token",
+            "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+            "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/rag-ingest-drive%40snoop-rag.iam.gserviceaccount.com",
+            "universe_domain": "googleapis.com"
+        }
         project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
         dataset = os.getenv("BIGQUERY_DATASET")
         if not project_id or not dataset:
@@ -22,7 +32,7 @@ def get_bigquery_engine():
         sqlalchemy_url = f'bigquery://{project_id}/{dataset}'
         _bigquery_engine = create_engine(
             sqlalchemy_url,
-            credentials_path=service_account_file_path
+            credentials_info=credentials_info,
         )
     return _bigquery_engine
 
