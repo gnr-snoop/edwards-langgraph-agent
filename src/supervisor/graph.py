@@ -18,8 +18,8 @@ from supervisor.prompts.clickup_supervisor_prompt import CLICKUP_SUPERVISOR_PROM
 
 from supervisor.state import State
 from rag_agent.graph import graph as rag_agent
-#from sql_agent.graph import graph as sql_agent
-from sql_agent.postgres_graph import graph as sql_agent
+#from sql_agent.postgres_graph import graph as sql_agent
+from sql_agent.bigquery_graph import graph as sql_agent
 from transaction_agent.graph import make_graph as create_transaction_agent_graph
 
 from supervisor.config import ChatConfigurable
@@ -102,6 +102,19 @@ async def postgres_node(state: State) -> State:
         "input": state["messages"][-1].content,
     }
     result = await sql_agent.ainvoke(input, config=config)
+    print(f"Result: {result}")
+    return {
+        "messages": result["answer"],
+        "sources": None,
+        "links": None
+    }
+
+async def sql_node(state: State) -> State:
+    input = {
+        "counter": 0,
+        "input": state["messages"][-1].content,
+    }
+    result = await sql_agent.ainvoke(input)
     print(f"Result: {result}")
     return {
         "messages": result["answer"],
@@ -249,7 +262,7 @@ async def schedule_memories(state: State, config: RunnableConfig) -> None:
 
 workflow = StateGraph(State,  config_schema=ChatConfigurable)
 workflow.add_node("Supervisor", supervisor_node)
-workflow.add_node("SQL_AGENT", postgres_node, retry=RetryPolicy(max_attempts=3))
+workflow.add_node("SQL_AGENT", sql_node, retry=RetryPolicy(max_attempts=3))
 workflow.add_node("CLICKUP_AGENT", clickup_mcp_node)
 workflow.add_node("RAG_AGENT", rag_node)   
 workflow.add_node("HELP_AGENT", help_node)
