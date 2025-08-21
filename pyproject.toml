@@ -39,7 +39,6 @@ dependencies = [
     "sqlalchemy-bigquery",
     "pydantic[email]>=2.11.5",
     "nltk>=3.9.1",
-    "psycopg2",
     "google-cloud-aiplatform>=1.95.1",
     "langgraph-checkpoint-postgres>=2.0.21",
     "langchain-pinecone>=0.2.6",
@@ -50,6 +49,7 @@ dependencies = [
     "langmem>=0.0.28",
     "python-dotenv>=1.1.1",
     "langchain-google-vertexai>=2.0.28",
+    "psycopg2-binary>=2.9.10",
 ]
 
 [build-system]
